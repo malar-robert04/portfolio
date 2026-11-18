@@ -1,12 +1,523 @@
+
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Voice Assistant | Sweetha Malar Robert</title><link rel="stylesheet" href="project.css"></head>
-<body><main class="detail-page"><a class="back-link" href="../index.html#independent">← Back to portfolio overview</a>
-  <header class="detail-header"><p class="eyebrow">INDEPENDENT TECHNICAL PROJECT · SPEECH AI</p><h1>AI-powered voice assistant for <em>automated call handling</em></h1><p class="subtitle">A voice assistant project combining language models, speech processing, translation, and text-to-speech.</p><div class="meta-row"><span>Python</span><span>Ollama · Qwen3</span><span>Speech processing</span><span>Translation · TTS</span></div></header>
-  <div class="detail-layout"><div class="detail-content">
-    <section><h2>Project overview</h2><p>This independent project explores an AI-powered voice assistant for automated call handling. The resume lists local model tooling, speech processing, translation, text-to-speech, and API integration.</p></section>
-    <section><h2>System components</h2><ul><li>Python application.</li><li>Ollama and Qwen3.</li><li>Speech processing and translation.</li><li>Text-to-speech output and API integration.</li></ul><div class="placeholder">Add the call flow, model configuration, languages, services, privacy considerations, and your exact implementation contribution.</div></section>
-    <section><h2>Demo and evaluation</h2><div class="placeholder">Add a real interface image or demo still, test scenarios, response quality evaluation, latency, limitations, and a video demo.</div></section>
-    <section><h2>Code</h2><div class="placeholder">Add the public GitHub link and setup instructions if the project is ready to share.</div></section>
-  </div><aside class="detail-aside"><h2>At a glance</h2><p><b>Project type</b><br>Independent technical project</p><p><b>Goal</b><br>AI-assisted automated call handling</p><p><b>Technologies</b><br>Python · Ollama · Qwen3 · Speech processing · Translation · Text-to-speech · API integration</p></aside></div>
-  <footer class="detail-footer"><span>Sweetha Malar Robert · Project portfolio</span><a href="../index.html">Portfolio home</a></footer>
-</main></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI-Powered Filipino–Korean Voice Assistant | Sweetha Malar Robert</title>
+  <link rel="stylesheet" href="project.css">
+</head>
+
+<body>
+<main class="detail-page">
+
+  <a class="back-link" href="../index.html#independent">
+    ← Back to portfolio overview
+  </a>
+
+  <header class="detail-header">
+    <p class="eyebrow">INDEPENDENT TECHNICAL PROJECT · MULTILINGUAL AI</p>
+
+    <h1>
+      AI-Powered <em>Filipino–Korean Voice Assistant</em>
+    </h1>
+
+    <p class="subtitle">
+      Developing a multilingual conversational voice assistant
+      integrating speech recognition, local LLM inference,
+      translation, information retrieval, and speech synthesis
+      for telephone-based communication.
+    </p>
+
+    <div class="meta-row">
+      <span>Python</span>
+      <span>Faster-Whisper</span>
+      <span>Ollama</span>
+      <span>Qwen3</span>
+      <span>Edge TTS</span>
+      <span>Speech Processing</span>
+      <span>LLM Integration</span>
+    </div>
+  </header>
+
+  <div class="detail-layout">
+
+    <div class="detail-content">
+
+      <!-- OVERVIEW -->
+      <section>
+        <h2>1. Project Overview</h2>
+
+        <p>
+          This project explores the development of an AI-powered
+          multilingual telephone assistant designed to facilitate
+          communication between Filipino-speaking callers and
+          Korean-speaking recipients.
+        </p>
+
+        <p>
+          The primary objective is to reduce language barriers
+          in everyday telephone conversations by integrating
+          automatic speech recognition, language understanding,
+          machine translation, response generation, and
+          text-to-speech into a unified conversational pipeline.
+        </p>
+
+        <p>
+          Rather than translating isolated sentences, the system
+          is designed to understand incoming messages, identify
+          the caller's intent, generate contextually appropriate
+          responses, and communicate those responses through
+          synthesized speech.
+        </p>
+
+        <p>
+          The project is being developed in two stages:
+          first establishing the AI processing pipeline, followed
+          by integration with a telephone communication system
+          for real-time call handling.
+        </p>
+      </section>
+
+      <!-- PROBLEM -->
+      <section>
+        <h2>2. Problem Definition and Motivation</h2>
+
+        <p>
+          Language differences can make everyday telephone
+          communication difficult, particularly when Filipino-speaking
+          individuals need to communicate with Korean-speaking
+          contacts.
+        </p>
+
+        <p>
+          Existing communication approaches often depend on
+          human interpreters or manual translation applications.
+          These methods can interrupt natural conversations,
+          require additional effort, and may not be practical
+          when immediate responses are needed.
+        </p>
+
+        <p>
+          This project investigates whether an AI-based voice
+          assistant can provide a more continuous conversational
+          experience by automatically processing speech,
+          understanding the message, translating information,
+          and generating spoken responses in the required language.
+        </p>
+      </section>
+
+      <!-- SYSTEM ARCHITECTURE -->
+      <section>
+        <h2>3. System Architecture</h2>
+
+        <p>
+          The proposed architecture consists of two major layers:
+          an AI processing layer responsible for understanding
+          and generating conversational responses, and a telephone
+          communication layer responsible for handling incoming
+          and outgoing audio streams.
+        </p>
+
+        <h3>Layer 1 – AI Processing Pipeline</h3>
+
+        <p>
+          The AI processing layer handles the transformation
+          of incoming speech into meaningful conversational
+          responses.
+        </p>
+
+        <ol>
+          <li>
+            <strong>Speech Recognition:</strong>
+            Faster-Whisper converts recorded speech into text
+            and supports language identification.
+          </li>
+          <li>
+            <strong>Language Processing:</strong>
+            The recognized text is processed to determine
+            the language and the nature of the request.
+          </li>
+          <li>
+            <strong>Intent Classification:</strong>
+            An intent-processing module identifies whether
+            the message requires translation, a conversational
+            response, or information retrieval.
+          </li>
+          <li>
+            <strong>LLM-Based Understanding and Response Generation:</strong>
+            Ollama with the Qwen3 model is used for language
+            understanding, translation, and contextual response
+            generation.
+          </li>
+          <li>
+            <strong>Information Retrieval:</strong>
+            Additional integrations with Open-Meteo and web
+            search support weather-related and factual queries.
+          </li>
+          <li>
+            <strong>Speech Synthesis:</strong>
+            Edge TTS converts the generated text into spoken
+            audio for the intended recipient.
+          </li>
+        </ol>
+
+        <h3>Layer 2 – Telephone Communication</h3>
+
+        <p>
+          The second layer is designed to connect the AI processing
+          pipeline with a telephone network.
+        </p>
+
+        <ul>
+          <li>
+            Existing LG U+ mobile number as the intended
+            telephone entry point.
+          </li>
+          <li>
+            Investigation of call forwarding and compatible
+            SIP/070 connectivity options.
+          </li>
+          <li>
+            Asterisk PBX for telephone call management.
+          </li>
+          <li>
+            Python-based integration for bidirectional audio
+            processing between the telephone system and AI pipeline.
+          </li>
+        </ul>
+
+        <p>
+          This layer is currently under development. The objective
+          is to establish a reliable audio connection that allows
+          incoming speech to be processed by the AI system and
+          generated responses to be returned to the caller.
+        </p>
+      </section>
+
+      <!-- SPEECH PROCESSING -->
+      <section>
+        <h2>4. Speech Processing and Multilingual Conversation</h2>
+
+        <p>
+          The core processing pipeline is designed around the
+          conversion of spoken language into text, contextual
+          interpretation, and the generation of spoken responses.
+        </p>
+
+        <h3>Speech-to-Text</h3>
+
+        <p>
+          Faster-Whisper is used to transcribe recorded Filipino
+          and Korean speech into text. Language identification
+          helps determine the appropriate processing path for
+          the recognized message.
+        </p>
+
+        <h3>Language Understanding and Translation</h3>
+
+        <p>
+          The recognized text is passed to a locally hosted
+          Qwen3 model through Ollama. The model is used for
+          translation, understanding the caller's message,
+          and generating contextually appropriate responses.
+        </p>
+
+        <p>
+          An intent-classification component helps distinguish
+          translation requests from conversational and
+          information-seeking requests, allowing the system
+          to follow different response paths.
+        </p>
+
+        <h3>Text-to-Speech</h3>
+
+        <p>
+          Edge TTS is integrated to convert generated responses
+          into spoken audio. This enables the processing pipeline
+          to produce audio output rather than relying solely
+          on translated text.
+        </p>
+
+        <p>
+          The current development focuses on making the
+          transcription, language processing, and speech
+          generation components work together as a unified
+          pipeline.
+        </p>
+      </section>
+
+      <!-- INFORMATION RETRIEVAL -->
+      <section>
+        <h2>5. Contextual Responses and Information Retrieval</h2>
+
+        <p>
+          Beyond direct translation, the system is being
+          extended to support information-based interactions.
+          The objective is to allow the assistant to process
+          requests that require information retrieval rather
+          than simply converting speech from one language
+          to another.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Weather Information:</strong>
+            Open-Meteo integration supports weather-related queries.
+          </li>
+          <li>
+            <strong>Web-Based Information:</strong>
+            Search integration supports retrieving information
+            for factual queries.
+          </li>
+          <li>
+            <strong>LLM Response Generation:</strong>
+            Retrieved information can be incorporated into
+            generated responses.
+          </li>
+        </ul>
+
+        <p>
+          These capabilities extend the system from a basic
+          translation pipeline towards a more flexible
+          conversational assistant.
+        </p>
+      </section>
+
+      <!-- DEVELOPMENT AND TESTING -->
+      <section>
+        <h2>6. Implementation and Development Progress</h2>
+
+        <p>
+          Development began with establishing the AI processing
+          pipeline independently of the telephone network.
+          Recorded audio files were used to test individual
+          components and validate the flow of information
+          between them.
+        </p>
+
+        <h3>Implemented and Tested</h3>
+
+        <ul>
+          <li>
+            Speech transcription using Faster-Whisper.
+          </li>
+          <li>
+            Filipino and Korean language processing.
+          </li>
+          <li>
+            Local LLM integration using Ollama and Qwen3.
+          </li>
+          <li>
+            Translation and conversational response generation.
+          </li>
+          <li>
+            Intent classification for different request types.
+          </li>
+          <li>
+            Speech generation using Edge TTS.
+          </li>
+          <li>
+            Weather and web-based information retrieval integrations.
+          </li>
+        </ul>
+
+        <h3>Current Development Priorities</h3>
+
+        <ul>
+          <li>
+            Improving response latency and overall processing speed.
+          </li>
+          <li>
+            Developing continuous audio input and output handling.
+          </li>
+          <li>
+            Integrating bidirectional audio communication
+            with the telephone system.
+          </li>
+          <li>
+            Establishing call management through Asterisk PBX
+            and a compatible telephony connection.
+          </li>
+          <li>
+            Developing a monitoring dashboard for call sessions,
+            transcriptions, translations, response times,
+            and system status.
+          </li>
+        </ul>
+      </section>
+
+      <!-- DASHBOARD -->
+      <section>
+        <h2>7. Monitoring and System Management</h2>
+
+        <p>
+          A web-based monitoring dashboard is planned as part
+          of the overall system. It will provide visibility
+          into the assistant's operation and help evaluate
+          the performance of individual processing stages.
+        </p>
+
+        <p>
+          The planned monitoring features include call-session
+          information, speech transcription, translated messages,
+          generated responses, processing time, and system status.
+        </p>
+
+        <p>
+          The dashboard will support debugging and performance
+          analysis as the AI pipeline is integrated with
+          the telephone communication layer.
+        </p>
+      </section>
+
+      <!-- EVALUATION -->
+      <section>
+        <h2>8. Evaluation and Future Testing</h2>
+
+        <p>
+          The current validation focuses on recorded-audio
+          testing of the AI processing pipeline. The next
+          evaluation stage will involve controlled telephone
+          conversations after the telephony integration
+          has been completed.
+        </p>
+
+        <p>
+          The planned evaluation criteria include:
+        </p>
+
+        <ul>
+          <li>
+            Speech recognition accuracy across Filipino and Korean.
+          </li>
+          <li>
+            Translation quality and preservation of conversational meaning.
+          </li>
+          <li>
+            Intent classification and response relevance.
+          </li>
+          <li>
+            End-to-end response latency.
+          </li>
+          <li>
+            Speech synthesis quality and intelligibility.
+          </li>
+          <li>
+            Reliability of bidirectional telephone audio communication.
+          </li>
+        </ul>
+
+        <p>
+          These evaluations will help identify bottlenecks
+          and guide further improvements to the system.
+        </p>
+      </section>
+
+      <!-- FUTURE DIRECTION -->
+      <section>
+        <h2>9. Future Direction and Expected Impact</h2>
+
+        <p>
+          The longer-term goal is to develop an accessible
+          multilingual telephone assistant capable of handling
+          natural conversations across language barriers.
+        </p>
+
+        <p>
+          Once telephone integration is established, future
+          improvements will focus on reducing response latency,
+          supporting more natural conversational turn-taking,
+          improving contextual understanding, and extending
+          language support.
+        </p>
+
+        <p>
+          The broader vision is to explore how locally hosted
+          language models and speech-processing technologies
+          can be combined to create practical AI communication
+          systems for everyday and workplace interactions.
+        </p>
+      </section>
+
+      <!-- TECHNOLOGIES -->
+      <section>
+        <h2>10. Technologies and Tools</h2>
+
+        <p>
+          Python · Faster-Whisper · Ollama · Qwen3 ·
+          Edge TTS · Speech Recognition · Natural Language
+          Processing · Machine Translation · Intent Classification ·
+          Open-Meteo · Web Search · Asterisk PBX · SIP · TCP/IP
+        </p>
+      </section>
+
+    </div>
+
+    <aside class="detail-aside">
+
+      <h2>At a glance</h2>
+
+      <p>
+        <b>Project type</b><br>
+        Independent AI Engineering Project
+      </p>
+
+      <p>
+        <b>Core domain</b><br>
+        Multilingual Conversational AI
+      </p>
+
+      <p>
+        <b>Languages</b><br>
+        Filipino · Korean
+      </p>
+
+      <p>
+        <b>Speech recognition</b><br>
+        Faster-Whisper
+      </p>
+
+      <p>
+        <b>Language model</b><br>
+        Qwen3 via Ollama
+      </p>
+
+      <p>
+        <b>Speech synthesis</b><br>
+        Edge TTS
+      </p>
+
+      <p>
+        <b>Information retrieval</b><br>
+        Open-Meteo · Web Search
+      </p>
+
+      <p>
+        <b>Planned telephony</b><br>
+        Asterisk PBX · SIP · LG U+
+      </p>
+
+      <p>
+        <b>Current validation</b><br>
+        Recorded-audio pipeline testing
+      </p>
+
+      <p>
+        <b>Future development</b><br>
+        Real-time telephone integration ·
+        Monitoring dashboard · Multilingual expansion
+      </p>
+
+    </aside>
+
+  </div>
+
+  <footer class="detail-footer">
+    <span>Sweetha Malar Robert · Project Portfolio</span>
+    <a href="../index.html">Portfolio home</a>
+  </footer>
+
+</main>
+</body>
+</html>

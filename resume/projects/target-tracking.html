@@ -1,12 +1,521 @@
+
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RL Target-Tracking Simulation | Sweetha Malar Robert</title><link rel="stylesheet" href="project.css"></head>
-<body><main class="detail-page"><a class="back-link" href="../index.html#independent">← Back to portfolio overview</a>
-  <header class="detail-header"><p class="eyebrow">INDEPENDENT TECHNICAL PROJECT · REINFORCEMENT LEARNING</p><h1>Reinforcement learning-based <em>target tracking simulation</em></h1><p class="subtitle">An independent simulation project exploring target tracking with reinforcement learning and network communication.</p><div class="meta-row"><span>Python</span><span>Gymnasium</span><span>Reinforcement learning</span><span>TCP/IP · sockets</span></div></header>
-  <div class="detail-layout"><div class="detail-content">
-    <section><h2>Project overview</h2><p>This independent technical project applies reinforcement learning to a target-tracking simulation. The resume lists simulation design, neural networks, network communication, and Gymnasium among the technologies and methods.</p></section>
-    <section><h2>Technical areas</h2><ul><li>Python and Gymnasium.</li><li>Reinforcement learning and neural networks.</li><li>TCP/IP and socket programming.</li><li>Simulation design.</li></ul><div class="placeholder">Add the environment, observation/state representation, action space, reward design, training process, and exact individual contribution.</div></section>
-    <section><h2>Experiments and results</h2><div class="placeholder">Add training curves, target-tracking sequences, evaluation metrics, comparisons, and limitations.</div></section>
-    <section><h2>Demo and code</h2><div class="placeholder">Add a short simulation video, GitHub repository, and reproducibility instructions when ready.</div></section>
-  </div><aside class="detail-aside"><h2>At a glance</h2><p><b>Project type</b><br>Independent technical project</p><p><b>Core topic</b><br>Reinforcement learning-based target tracking</p><p><b>Tools and methods</b><br>Python · Gymnasium · Neural networks · TCP/IP · Socket programming · Simulation design</p></aside></div>
-  <footer class="detail-footer"><span>Sweetha Malar Robert · Project portfolio</span><a href="../index.html">Portfolio home</a></footer>
-</main></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RL Target-Tracking Simulation | Sweetha Malar Robert</title>
+  <link rel="stylesheet" href="project.css">
+</head>
+
+<body>
+<main class="detail-page">
+
+  <a class="back-link" href="../index.html#independent">
+    ← Back to portfolio overview
+  </a>
+
+  <header class="detail-header">
+    <p class="eyebrow">INDEPENDENT TECHNICAL PROJECT · REINFORCEMENT LEARNING</p>
+
+    <h1>
+      Reinforcement Learning-Based
+      <em>Autonomous Target Tracking</em>
+    </h1>
+
+    <p class="subtitle">
+      A real-time PPO-based tracking controller combining custom
+      simulation, state estimation, reward engineering, and
+      low-latency TCP communication.
+    </p>
+
+    <div class="meta-row">
+      <span>Python</span>
+      <span>PyTorch</span>
+      <span>Gymnasium</span>
+      <span>Stable-Baselines3</span>
+      <span>PPO</span>
+      <span>TCP/IP</span>
+    </div>
+  </header>
+
+  <div class="detail-layout">
+
+    <div class="detail-content">
+
+      <section>
+        <h2>1. Project Overview</h2>
+
+        <p>
+          This project explores the application of Reinforcement Learning
+          (RL) to real-time autonomous target tracking. The objective is
+          to train an intelligent agent to follow a continuously moving
+          target through environmental interaction rather than relying
+          on manually programmed tracking rules.
+        </p>
+
+        <p>
+          A custom Gymnasium-based reinforcement learning environment
+          was developed using Python, with Proximal Policy Optimization
+          (PPO) as the learning algorithm. The system connects the
+          learning controller to an external 2D target-tracking
+          application through a TCP communication interface.
+        </p>
+
+        <p>
+          The Green dot moves independently within the simulation,
+          while the Blue dot acts as the controlled agent. The PPO
+          controller continuously observes the environment, generates
+          movement commands, and adjusts the follower's position to
+          minimise tracking error while maintaining smooth movement.
+        </p>
+
+        <p>
+          An important part of the project involved investigating
+          the external application's communication behaviour and
+          designing the RL environment around its actual data and
+          timing constraints.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. Simulation Environment</h2>
+
+        <p>
+          The environment represents a dynamic two-dimensional
+          target-tracking problem with two primary entities:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Green Dot – Target:</strong>
+            Moves independently and creates a continuously changing
+            tracking objective.
+          </li>
+          <li>
+            <strong>Blue Dot – Agent:</strong>
+            The controlled entity whose movement is determined by
+            the PPO policy.
+          </li>
+          <li>
+            <strong>Environment:</strong>
+            Manages observations, movement commands, state estimation,
+            reward calculation, and communication with the application.
+          </li>
+        </ul>
+
+        <p>
+          The agent must continuously respond to changes in the
+          target's position. This creates a closed-loop learning
+          problem in which each action influences the next
+          environmental state.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. TCP Communication and System Identification</h2>
+
+        <p>
+          A TCP client-server interface was implemented to exchange
+          environmental observations and movement commands with the
+          external application.
+        </p>
+
+        <h3>Incoming Telemetry – 20 Bytes per Packet</h3>
+
+        <ul>
+          <li>Green dot X and Y coordinates: 2 × int32 (8 bytes).</li>
+          <li>Blue dot X and Y tracking-error magnitudes: 2 × int32 (8 bytes).</li>
+          <li>X and Y error flags: 2 Boolean values (2 bytes).</li>
+          <li>Carriage return and line feed terminators (2 bytes).</li>
+        </ul>
+
+        <p>
+          <strong>System-identification finding:</strong>
+          The secondary coordinate fields initially appeared to
+          represent the Blue dot's coordinates. However, packet-level
+          investigation revealed that they represented unsigned
+          absolute tracking-error magnitudes:
+          |Green X − Blue X| and |Green Y − Blue Y|.
+        </p>
+
+        <p>
+          Since absolute error values do not preserve directional
+          information, treating them as raw coordinates caused
+          incorrect tracking behaviour and direction reversals.
+          This required reconstructing the Blue dot's internal
+          position from previously commanded coordinates.
+        </p>
+
+        <h3>Outgoing Commands</h3>
+
+        <ul>
+          <li>
+            <strong>Position Mode (P) – 13 bytes:</strong>
+            Sends the Blue dot's commanded X and Y positions using
+            two int32 values and protocol delimiters.
+          </li>
+          <li>
+            <strong>Configuration Mode (C) – 17 bytes:</strong>
+            Adjusts object speed and object size through
+            configuration parameters.
+          </li>
+        </ul>
+
+        <p>
+          Packet diagnostics also identified a deterministic
+          application update interval of approximately
+          <strong>15 ms (66.7 Hz)</strong>. Synchronising RL
+          interactions with incoming telemetry helped eliminate
+          socket backlog bursts and timing inconsistencies.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. Observation Space and Action Design</h2>
+
+        <p>
+          A custom Markov Decision Process (MDP) was formulated
+          using a 13-dimensional observation space and a
+          2-dimensional continuous action space.
+        </p>
+
+        <h3>Input – 13-Dimensional Observation Space</h3>
+
+        <ul>
+          <li>Green target position: X and Y coordinates (2).</li>
+          <li>Signed tracking error: X and Y relative errors (2).</li>
+          <li>Estimated Green and Blue velocities: X and Y components (4).</li>
+          <li>Velocity-estimation validity flags (2).</li>
+          <li>Current application speed setting (1).</li>
+          <li>Previous movement action: X and Y components (2).</li>
+        </ul>
+
+        <p>
+          The observation features are normalised into a bounded
+          range of [-1, 1]. Tracking errors use a scaling parameter
+          of 80 pixels to improve sensitivity near the target.
+        </p>
+
+        <h3>Output – 2-Dimensional Continuous Action Space</h3>
+
+        <p>
+          The PPO policy generates two continuous action values,
+          corresponding to the Blue dot's X and Y movement.
+          Each action is converted into a bounded position increment,
+          with a maximum movement step of 12 pixels per interaction.
+        </p>
+
+        <p>
+          Previous-action information is retained in the state
+          representation so that the reward function can account
+          for abrupt changes in consecutive movements.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. PPO-Based Learning Architecture</h2>
+
+        <p>
+          Proximal Policy Optimization (PPO), implemented through
+          Stable-Baselines3, was used to train the agent's
+          continuous tracking policy.
+        </p>
+
+        <p>The closed-loop learning process follows these steps:</p>
+
+        <ol>
+          <li>The agent receives the current 13-dimensional observation.</li>
+          <li>The PPO policy generates a continuous 2D action.</li>
+          <li>The action is converted into a position command.</li>
+          <li>The command is transmitted through TCP.</li>
+          <li>The application updates the Blue dot and returns new telemetry.</li>
+          <li>The environment reconstructs the updated state and calculates the reward.</li>
+          <li>Collected interaction experience is used for PPO policy optimisation.</li>
+        </ol>
+
+        <h3>Reward Engineering</h3>
+
+        <ul>
+          <li>
+            <strong>Distance Penalty:</strong>
+            Encourages minimising the target-tracking distance.
+          </li>
+          <li>
+            <strong>Progress Reward:</strong>
+            Rewards improvements in tracking distance between steps.
+          </li>
+          <li>
+            <strong>Jerk Penalty:</strong>
+            Discourages abrupt changes between consecutive actions.
+          </li>
+          <li>
+            <strong>Closeness Reward:</strong>
+            Provides continuous positive reinforcement while
+            the agent remains within a 5-pixel tracking zone.
+          </li>
+          <li>
+            <strong>Out-of-Zone Penalty:</strong>
+            Penalises time spent outside the desired tracking threshold.
+          </li>
+        </ul>
+
+        <p>
+          This reward design encourages the agent not only to reach
+          the target but also to maintain stable tracking behaviour.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Engineering Challenges and Improvements</h2>
+
+        <p>
+          Initial closed-loop experiments revealed unexpected
+          oscillations, coordinate discontinuities, and timing
+          inconsistencies. These issues required investigation
+          beyond the reinforcement learning algorithm itself.
+        </p>
+
+        <h3>State Reconstruction</h3>
+
+        <p>
+          The incoming application telemetry provided unsigned
+          tracking-error magnitudes rather than signed Blue dot
+          coordinates. To address this ambiguity, I implemented
+          history-based internal state tracking using previously
+          commanded Blue coordinates.
+        </p>
+
+        <h3>Observation and Reward Conditioning</h3>
+
+        <ul>
+          <li>
+            Added previous-action information to the observation
+            space to support smoother movement.
+          </li>
+          <li>
+            Tightened tracking-error normalisation from 500 to
+            80 pixels to improve sensitivity near the target.
+          </li>
+          <li>
+            Introduced continuous closeness reinforcement within
+            the 5-pixel target zone to reduce post-arrival drift.
+          </li>
+          <li>
+            Synchronised RL interactions with incoming telemetry
+            to maintain consistent timing.
+          </li>
+        </ul>
+
+        <p>
+          These changes were evaluated through successive policy
+          versions rather than treating the initial PPO configuration
+          as a final solution.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. Experimental Evaluation and Results</h2>
+
+        <p>
+          The final controller was evaluated through a
+          <strong>2,000-step deterministic evaluation</strong>,
+          comparing three successive PPO versions.
+        </p>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <strong>3.273 px</strong>
+            <span>Final mean tracking distance</span>
+          </div>
+
+          <div class="result-card">
+            <strong>2.236 px</strong>
+            <span>Final median tracking distance</span>
+          </div>
+
+          <div class="result-card">
+            <strong>80.95%</strong>
+            <span>Time within the 5-pixel target zone</span>
+          </div>
+
+          <div class="result-card">
+            <strong>+296.22</strong>
+            <span>Total evaluation episode reward</span>
+          </div>
+        </div>
+
+        <h3>PPO Version Comparison</h3>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Evaluation Metric</th>
+                <th>PPO V2</th>
+                <th>PPO V3</th>
+                <th>PPO V4</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mean tracking distance</td>
+                <td>15.30 px</td>
+                <td>14.64 px</td>
+                <td><strong>3.273 px</strong></td>
+              </tr>
+              <tr>
+                <td>Median tracking distance</td>
+                <td>11.91 px</td>
+                <td>12.37 px</td>
+                <td><strong>2.236 px</strong></td>
+              </tr>
+              <tr>
+                <td>Time within 5 px</td>
+                <td>20.66%</td>
+                <td>11.74%</td>
+                <td><strong>80.95%</strong></td>
+              </tr>
+              <tr>
+                <td>Direction reversals</td>
+                <td>27.85%</td>
+                <td>42.87%</td>
+                <td><strong>17.01%</strong></td>
+              </tr>
+              <tr>
+                <td>Total episode reward</td>
+                <td>-8.86</td>
+                <td>-38.03</td>
+                <td><strong>+296.22</strong></td>
+              </tr>
+              <tr>
+                <td>Evaluation time</td>
+                <td>21.50 s</td>
+                <td>24.28 s</td>
+                <td><strong>30.000 s</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          PPO V4 achieved a mean tracking distance of 3.273 pixels
+          and maintained the follower within the 5-pixel target
+          zone for 80.95% of the evaluation period. These results
+          demonstrate improvements over earlier policy versions
+          following adjustments to state estimation, observation
+          normalisation, reward conditioning, and action smoothness.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Research Motivation and Future Direction</h2>
+
+        <p>
+          This project strengthened my interest in a broader
+          reinforcement learning challenge: the dependence of
+          conventional RL algorithms on manually predefined
+          observation spaces.
+        </p>
+
+        <p>
+          The current controller uses a manually designed
+          13-dimensional observation vector. This raised a
+          fundamental research question for me: can an intelligent
+          agent autonomously discover meaningful state representations
+          from environmental information rather than relying
+          entirely on manually selected features?
+        </p>
+
+        <p>
+          My proposed research direction is
+          <strong>Autonomous State-Space Discovery and Explainable
+          Representation Learning for Reinforcement Learning</strong>.
+          I am particularly interested in investigating reward-aware
+          feature discovery, compact state representations,
+          and interpretable policy learning.
+        </p>
+
+        <p>
+          In the longer term, I hope to investigate how these
+          approaches can improve adaptive decision-making in
+          dynamic physical environments and autonomous robotic systems.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. Technologies and Tools</h2>
+
+        <p>
+          Python · PyTorch · Gymnasium · Stable-Baselines3 ·
+          PPO · Pygame · NumPy · TCP/IP · Socket Programming
+        </p>
+      </section>
+
+    </div>
+
+    <aside class="detail-aside">
+      <h2>At a glance</h2>
+
+      <p>
+        <b>Project type</b><br>
+        Independent research and engineering project
+      </p>
+
+      <p>
+        <b>Core research area</b><br>
+        Reinforcement Learning · Autonomous Control
+      </p>
+
+      <p>
+        <b>Learning algorithm</b><br>
+        Proximal Policy Optimization (PPO)
+      </p>
+
+      <p>
+        <b>Environment</b><br>
+        Custom Gymnasium-based 2D simulation
+      </p>
+
+      <p>
+        <b>Observation space</b><br>
+        13-dimensional
+      </p>
+
+      <p>
+        <b>Action space</b><br>
+        2-dimensional continuous control
+      </p>
+
+      <p>
+        <b>Communication</b><br>
+        TCP/IP · Socket Programming
+      </p>
+
+      <p>
+        <b>Evaluation</b><br>
+        2,000-step deterministic evaluation
+      </p>
+
+      <p>
+        <b>Best evaluation result</b><br>
+        3.273 px mean tracking distance
+      </p>
+
+      <p>
+        <b>Future research interest</b><br>
+        Autonomous State-Space Discovery ·
+        Explainable Representation Learning
+      </p>
+    </aside>
+
+  </div>
+
+  <footer class="detail-footer">
+    <span>Sweetha Malar Robert · Project Portfolio</span>
+    <a href="../index.html">Portfolio home</a>
+  </footer>
+
+</main>
+</body>
+</html>

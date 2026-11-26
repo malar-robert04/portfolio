@@ -23,7 +23,14 @@ a{color:inherit}
   justify-content: center;
   box-shadow: 0 5px 18px rgba(72,48,56,.08);
 }
-
+.project-skills {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #6b4c57; /* Subtle muted tone that complements the yellow/rose palette */
+  margin-top: 8px;
+  margin-bottom: 12px;
+  line-height: 1.45;
+}
 .portrait img {
   display: block;
   width: auto;
